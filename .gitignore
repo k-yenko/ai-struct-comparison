@@ -1,0 +1,11 @@
+# Large data files
+*.npz
+*.tar.gz
+*.a3m
+# Generated files
+lightning_logs/
+processed/
+msa_pairgreedy-env/
+
+# System files
+.DS_Store
