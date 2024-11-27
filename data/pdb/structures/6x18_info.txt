@@ -1,0 +1,3 @@
+Structure: 6x18
+Description: GLP-1R bound to GLP-1 (Cryo-EM)
+Citation: DOI: 10.1038/s41586-020-2497-1
