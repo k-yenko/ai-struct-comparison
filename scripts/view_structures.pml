@@ -17,12 +17,18 @@ load /Users/katherineyenko/Desktop/sandbox/ai-struct-comparison/results/boltz/co
 color forest, boltz and chain A   # receptor in green
 color yellow, boltz and chain B   # peptide in yellow
 
+# Load AlphaFold3 prediction (model 0)
+load data/af3/fold_glp_1r_and_glp_1_model_0.cif, af3
+color purple, af3 and chain A     # receptor in purple
+color pink, af3 and chain B       # peptide in pink
+
 # Show all as cartoon
 show cartoon
 
-# Align predictions to ground truth
+# Align all predictions to PDB, get 
 align chai, true
 align boltz, true
+align af3, true
 
 # Make sure everything is visible
 enable all
