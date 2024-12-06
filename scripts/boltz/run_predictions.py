@@ -1,5 +1,3 @@
-# run_predictions.py
-
 import os
 import subprocess
 from prepare_sequences import molecules

@@ -1,0 +1,3 @@
+Structure Comparison Results:
+RMSD between structures: 19.80 Å
+Number of aligned atoms: 2930
