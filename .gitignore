@@ -2,6 +2,8 @@
 *.npz
 *.tar.gz
 *.a3m
+molview/
+
 # Generated files
 lightning_logs/
 processed/
