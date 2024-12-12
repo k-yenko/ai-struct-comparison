@@ -35,19 +35,15 @@ def create_combined_fasta(combination, molecules):
 
 def run_boltz(fasta_file, output_dir):
     """Run Boltz prediction for a given FASTA file"""
-    # Set environment variables for Mac M1/M2 compatibility
-    env = os.environ.copy()
-    env["PYTORCH_ENABLE_MPS_FALLBACK"] = "1"
-    env["CUDA_VISIBLE_DEVICES"] = ""
-    
-    cmd = f"boltz predict {fasta_file} --use_msa_server --out_dir {output_dir}"
+    # Use --accelerator cpu to force CPU usage
+    cmd = f"boltz predict {fasta_file} --use_msa_server --out_dir {output_dir} --accelerator cpu"
     print(f"Running: {cmd}")
     try:
-        subprocess.run(cmd, shell=True, check=True, env=env)
+        subprocess.run(cmd, shell=True, check=True)
         print(f"Successfully completed Boltz prediction for {fasta_file}")
     except subprocess.CalledProcessError as e:
         print(f"Error running Boltz for {fasta_file}: {e}")
-
+        
 def main():
     # Create output directory if it doesn't exist
     base_output_dir = "boltz_combination_outputs"
