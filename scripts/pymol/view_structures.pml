@@ -1,5 +1,4 @@
-# Clear everything
-delete all
+# script for running line-by-line in PyMOL
 
 # Load ground truth (6X18) and color chains
 load data/pdb/structures/6x18.pdb, true
@@ -17,7 +16,7 @@ show cartoon, chai and chain A    # receptor as cartoon
 show sticks, chai and chain B     # peptide as sticks
 
 # Load Boltz prediction
-load /Users/katherineyenko/Desktop/sandbox/ai-struct-comparison/results/boltz/complexes/glp1r_glp1/predictions/glp1r_glp1_model_0.cif, boltz
+load results/boltz/glp1r_glp1_model_0.cif, boltz
 color forest, boltz and chain A   # receptor in green
 color yellow, boltz and chain B   # peptide in yellow
 show cartoon, boltz and chain A   # receptor as cartoon
