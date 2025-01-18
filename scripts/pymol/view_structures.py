@@ -9,7 +9,6 @@ colors = {
     'true_filtered': ('cyan', 'marine'),
     'chai': ('salmon', 'red'),
     'boltz': ('yellow', 'orange'),
-    'boltz2': ('gray70', 'gray30'),
     'af3': ('forest', 'lime')
 }
 
@@ -23,8 +22,7 @@ cmd.delete("true_complex")
 # Load other structures
 structures = {
     "chai": "data/chai/input/pred.model_idx_0.rank_0.cif",
-    "boltz": "results/boltz/complexes/glp1r_glp1/predictions/glp1r_glp1_model_0.cif",
-    "boltz2": "boltz_combination_outputs/glp1r_glp1/boltz_results_glp1r_glp1/predictions/glp1r_glp1/glp1r_glp1_model_0.cif",
+    "boltz": "results/boltz/glp1r_glp1_model_0.cif",
     "af3": "data/af3/fold_glp_1r_and_glp_1_model_0.cif"
 }
 
