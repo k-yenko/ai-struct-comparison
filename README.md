@@ -6,8 +6,8 @@ Comparative analysis of protein-ligand complex structures predicted by different
 
 ## test
 <div style="display: flex; gap: 20px;">
-    <img src="results/glp1r_glp1/pymol/pdb-chai.png" width="400" alt="Static Structure Comparison">
-    <img src="results/glp1r_glp1/pymol/pdb-chai.gif" width="400" alt="Rotating Structure Comparison">
+    <img src="results/glp1r_glp1/pymol/pdb-chai.png" width="300" alt="Static Structure Comparison">
+    <img src="results/glp1r_glp1/pymol/pdb-chai.gif" width="300" alt="Rotating Structure Comparison">
 </div>
 
 <div style="display: flex; gap: 20px;">
