@@ -3,7 +3,7 @@
 *.tar.gz
 *.a3m
 molview/
-*.ipynb
+/scripts/boltz/.ipynb_checkpoints/
 
 # Generated files
 lightning_logs/
