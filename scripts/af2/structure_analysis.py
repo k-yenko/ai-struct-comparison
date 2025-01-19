@@ -1,91 +1,92 @@
-import numpy as np
+import subprocess
+import os
 from Bio import PDB
-from Bio.PDB import *
-import pandas as pd
+import numpy as np
 
-# Create parser and structure objects
-parser = PDB.PDBParser()
-structure = parser.get_structure('glp1r', 'data/projects/glp1r_glp1/af2/AF-P43220-F1-model_v4.pdb')
+def check_structure(file_path):
+    """Check if structure file is readable and valid"""
+    try:
+        parser = PDB.PDBParser(QUIET=True) if file_path.endswith('.pdb') else PDB.MMCIFParser(QUIET=True)
+        structure = parser.get_structure('test', file_path)
+        
+        # Print chain information
+        print(f"\nFile: {file_path}")
+        for chain in structure.get_chains():
+            num_residues = len(list(chain.get_residues()))
+            print(f"Chain {chain.id}: {num_residues} residues")
+        
+        return True
+    except Exception as e:
+        print(f"Error reading {file_path}: {str(e)}")
+        return False
 
-# Extract chain A
-chain_A = structure[0]['A']
+def calculate_metrics(model_path, reference_path, output_dir):
+    """Calculate LDDT and TM-score for a model against reference"""
+    
+    # First check if structures are valid and print chain info
+    print("\nChecking reference structure:")
+    if not check_structure(reference_path):
+        return {'TM-score': 0.0}
+    
+    print("\nChecking model structure:")
+    if not check_structure(model_path):
+        return {'TM-score': 0.0}
+    
+    # Run TM-align with timeout
+    cmd = f"TMalign {model_path} {reference_path}"
+    try:
+        result = subprocess.run(cmd, shell=True, capture_output=True, text=True, timeout=30)  # 30 second timeout
+        print("\nTMalign output:")
+        print(result.stdout)
+        print("\nTMalign errors:")
+        print(result.stderr)
+    except subprocess.TimeoutExpired:
+        print("TMalign timed out after 30 seconds")
+        return {'TM-score': 0.0}
+    except Exception as e:
+        print(f"Error running TMalign: {str(e)}")
+        return {'TM-score': 0.0}
+    
+    # Initialize tm_score
+    tm_score = None
+    
+    # Parse TM-score from output
+    for line in result.stdout.split('\n'):
+        if 'TM-score=' in line:
+            try:
+                tm_score = float(line.split('=')[1].split()[0])
+                break
+            except (IndexError, ValueError) as e:
+                print(f"Error parsing TM-score from line: {line}")
+                print(f"Error details: {e}")
+    
+    # Check if we found a TM-score
+    if tm_score is None:
+        print("Warning: Could not find TM-score in output")
+        tm_score = 0.0
+    
+    return {'TM-score': tm_score}
 
-# Get residues and their properties
-residue_data = []
-
-# Calculate surface accessibility
-sr = SASA.ShrakeRupley()
-sr.compute(structure, level="R")
-
-for res in chain_A:
-    if res.id[0] == ' ':  # Only standard amino acids
-        # Get pLDDT from B-factor (AF2 stores confidence scores here)
-        try:
-            plddt = np.mean([atom.bfactor for atom in res])
-            # Convert AF2 scale (0-100) to 0-1
-            plddt = plddt/100
-        except:
-            plddt = 0
+if __name__ == "__main__":
+    # Reference structure (PDB)
+    reference = "data/common/structures/6x18.pdb"
+    
+    # Models to evaluate
+    models = {
+        'chai': "data/projects/glp1r_glp1/chai/pred.model_idx_0.rank_0.cif",
+        'boltz': "results/glp1r_glp1/boltz/glp1r_glp1_model_0.cif",
+        'af3': "data/projects/glp1r_glp1/af3/fold_glp_1r_and_glp_1_model_0.cif",
+        'af2': "data/projects/glp1r_glp1/af2/AF-P43220-F1-model_v4.pdb"
+    }
+    
+    # Calculate metrics for each model
+    results = {}
+    for name, path in models.items():
+        if not os.path.exists(path):
+            print(f"\nSkipping {name} due to missing file")
+            continue
             
-        # Get surface accessibility
-        sasa = res.sasa
-            
-        residue_data.append({
-            'residue_id': res.id[1],
-            'residue_name': res.resname,
-            'plddt': plddt,
-            'sasa': sasa
-        })
-
-# Convert to DataFrame
-df = pd.DataFrame(residue_data)
-
-# Calculate sliding window averages (7-residue window)
-window_size = 7
-df['plddt_window'] = df['plddt'].rolling(window=window_size, center=True).mean()
-df['sasa_window'] = df['sasa'].rolling(window=window_size, center=True).mean()
-
-# Identify high-confidence surface regions
-threshold_plddt = 0.7  # High confidence threshold
-threshold_sasa = np.percentile(df['sasa_window'].dropna(), 70)  # Top 30% exposed
-
-# Find regions meeting both criteria
-high_quality_surface = df[
-    (df['plddt_window'] >= threshold_plddt) & 
-    (df['sasa_window'] >= threshold_sasa)
-].copy()
-
-# Find continuous regions
-high_quality_surface['region'] = (
-    high_quality_surface['residue_id'].diff() != 1).cumsum()
-
-# Group into regions
-regions = []
-for region_id, group in high_quality_surface.groupby('region'):
-    if len(group) >= 5:  # Minimum 5 residues per region
-        regions.append({
-            'start': group['residue_id'].iloc[0],
-            'end': group['residue_id'].iloc[-1],
-            'avg_plddt': group['plddt'].mean(),
-            'avg_sasa': group['sasa'].mean(),
-            'size': len(group)
-        })
-
-# Print overall statistics
-print("\nOverall Structure Statistics:")
-print(f"Average pLDDT: {df['plddt'].mean():.3f}")
-print(f"Minimum pLDDT: {df['plddt'].min():.3f}")
-print(f"Maximum pLDDT: {df['plddt'].max():.3f}")
-
-print("\nPromising Surface Regions:")
-for i, region in enumerate(regions, 1):
-    print(f"\nRegion {i}:")
-    print(f"Residues {region['start']}-{region['end']} ({region['size']} residues)")
-    print(f"Average pLDDT: {region['avg_plddt']:.3f}")
-    print(f"Average SASA: {region['avg_sasa']:.1f}")
-
-# Look for low confidence regions to avoid
-low_confidence = df[df['plddt'] < 0.5]
-if not low_confidence.empty:
-    print("\nLow Confidence Regions to Avoid:")
-    print(low_confidence[['residue_id', 'residue_name', 'plddt']].to_string(index=False))
+        print(f"\nCalculating metrics for {name}...")
+        metrics = calculate_metrics(path, reference, "results/metrics")
+        results[name] = metrics
+        print(f"TM-score: {metrics['TM-score']:.3f}")
