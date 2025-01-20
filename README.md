@@ -118,6 +118,7 @@ As a first foray into using these methods, I used GLP-1R (Glucagon-like peptide-
     - Affinity predictions
 
 **Last Thoughts**
+
 This project exposed an endless list of additional questions, but I chose not to get lost in the details. While structural accuracy is important, my natural curiousity points me in the direction of drug discovery and a more practical evaluation of drug-target interactions. While a lot of these tools produce accurate binding poses, there seems to be a lack of integrated workflows that streamline the entire molecular docking process.  I also realized how computationally expensive and slow these processes can be: can real-time complex predictions be integrated while optimizing docking simulations?
 The next project will focus on:
 - Predicting protein-ligand binding affinities
