@@ -60,26 +60,26 @@ As a first foray into using these methods, I used GLP-1R (Glucagon-like peptide-
 
 ## Metric Limitations and Interpretation Challenges
 1. **RMSD**:
-   - Sensitive to outliers and global alignment
-   - Depends on alignment method used (e.g. superimposing on the reference structure with something like PyMOL vs. aligning to the reference structure)
-   - A low RMSD doesn't necessarily mean the structure is accurate, or indicate good binding interaction
-   - Needed careful consideration of:  
+- Sensitive to outliers and global alignment
+- Depends on alignment method used (e.g. superimposing on the reference structure with something like PyMOL vs. aligning to the reference structure)
+- A low RMSD doesn't necessarily mean the structure is accurate, or indicate good binding interaction
+- Needed careful consideration of:  
     - Which atoms to use for alignment (i.e. CA vs all atoms)
     - Handling receptor-peptide alignment separately or together
     - Dealing with different chain identifiers 
 
 2. **TM-score**:
-   - TM-scores below 0.4 generally indicate weak structural similarity, so the low scores here suggest that no predictor fully captured the experimental complex
-   - The scores of ~0.24-0.26 suggest:
+- TM-scores below 0.4 generally indicate weak structural similarity, so the low scores here suggest that no predictor fully captured the experimental complex
+- The scores of ~0.24-0.26 suggest:
     - Potential limitations in predition methods
     - Potential limitations with structure alignment
     - Need for careful interpretation of global similarity metrics
 
 3. **lDDT-PLI**:
-   - Threshold selection:
-    - What are good cutoff distances for determining lDDT-PLI/how strictly should we evaluate atomic distance deviations? 
-     - Smaller cutoffs will enforce strict atomic accuracy, while larger cutoffs may be better for accounting for natural structural variation in protein-ligand complexes
-     - Differnet systems need different thresholds:
+- Threshold selection:
+ - What are good cutoff distances for determining lDDT-PLI/how strictly should we evaluate atomic distance deviations? 
+    - Smaller cutoffs will enforce strict atomic accuracy, while larger cutoffs may be better for accounting for natural structural variation in protein-ligand complexes
+    - Differnet systems need different thresholds:
         - Protein-protein vs. protein-ligand
         - Large vs small molecules
         - Rigid vs flexible molecules
