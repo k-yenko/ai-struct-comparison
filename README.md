@@ -77,12 +77,12 @@ As a first foray into using these methods, I used GLP-1R (Glucagon-like peptide-
 
 3. **lDDT-PLI**:
 - Threshold selection:
- - What are good cutoff distances for determining lDDT-PLI/how strictly should we evaluate atomic distance deviations? 
-    - Smaller cutoffs will enforce strict atomic accuracy, while larger cutoffs may be better for accounting for natural structural variation in protein-ligand complexes
-    - Differnet systems need different thresholds:
-        - Protein-protein vs. protein-ligand
-        - Large vs small molecules
-        - Rigid vs flexible molecules
+    - What are good cutoff distances for determining lDDT-PLI/how strictly should we evaluate atomic distance deviations? 
+        - Smaller cutoffs will enforce strict atomic accuracy, while larger cutoffs may be better for accounting for natural structural variation in protein-ligand complexes
+        - Differnet systems need different thresholds:
+            - Protein-protein vs. protein-ligand
+            - Large vs small molecules
+            - Rigid vs flexible molecules
 
 ## General Considerations
 - No single metric captures the prediction quality
