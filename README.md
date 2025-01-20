@@ -88,7 +88,7 @@ As a first foray into using these methods, I used GLP-1R (Glucagon-like peptide-
 - No single metric captures the prediction quality
 - Different metrics may apply to different research questions
     - Current project used simplified thresholds
-- Structural metrics != functional metrics
+- Structural metrics ≠ functional metrics
 
 ## What now?
 
@@ -111,7 +111,6 @@ As a first foray into using these methods, I used GLP-1R (Glucagon-like peptide-
 ### From Structure to Function
 
 **Structure vs. Binding**
-- Good structural prediction ≠ accurate binding prediction
 - Need to bridge gap between:
     - Static structure analysis
     - Dynamic binding events
