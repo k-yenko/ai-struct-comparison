@@ -5,7 +5,7 @@
   *Boltz-1: Democratizing Biomolecular Interaction Modeling*. bioRxiv.  
   [DOI: 10.1101/2024.11.19.624167](https://doi.org/10.1101/2024.11.19.624167)
 
-## ColabFold
+## ColabFold (for automatic MSA generation)
 - Mirdita, M., Schütze, K., Moriwaki, Y., Heo, L., Ovchinnikov, S., & Steinegger, M. (2022).  
   *ColabFold: making protein folding accessible to all*. Nature Methods.  
   [DOI: N/A]
