@@ -89,6 +89,7 @@ As a first foray into using these methods, I used GLP-1R (Glucagon-like peptide-
 - Different metrics may apply to different research questions
     - Current project used simplified thresholds
 - Structural metrics ≠ functional metrics
+- GLP1R data is taken from PDB, which is the EM version of it. GLP1R is naturally a transmembrane protein, so take all of this ^ with a grain of salt
 
 ## What now?
 
